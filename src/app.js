@@ -39,11 +39,14 @@ app.put("/repositories/:id", (request, response) => {
   );
 
   if (repoIndex >= 0) {
-    const updatedRepo = { ...repositories[repoIndex], title, url, techs };
+    repositories[repoIndex] = {
+      ...repositories[repoIndex],
+      title,
+      url,
+      techs,
+    };
 
-    repositories.splice(repoIndex, 1, updatedRepo);
-
-    return response.send(updatedRepo);
+    return response.send(repositories[repoIndex]);
   }
 
   return response.status(400).send({ message: "Repository not found" });
@@ -73,14 +76,12 @@ app.post("/repositories/:id/like", (request, response) => {
   );
 
   if (repoIndex >= 0) {
-    const updatedRepo = {
+    repositories[repoIndex] = {
       ...repositories[repoIndex],
       likes: repositories[repoIndex].likes + 1,
     };
 
-    repositories.splice(repoIndex, 1, updatedRepo);
-
-    return response.send(updatedRepo);
+    return response.send(repositories[repoIndex]);
   }
 
   return response.status(400).send({ message: "Repository not found" });
